@@ -7,6 +7,9 @@ import org.example.budgetbuddyapi.repo.TransactionRepo;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 // api/ → the web layer (controllers = REST endpoints that Angular will call)
 // Defines REST endpoints like /api/transactions.
@@ -42,6 +45,8 @@ public class TransactionController {
     }
 
 
+//    Method which recovers a transaction by the id that MongoDB gave it
+
     @GetMapping("/{id}")
     public TransactionResponseDTO get(@PathVariable String id) {
         var doc = repo.findById(id);
@@ -53,6 +58,29 @@ public class TransactionController {
                 doc.get().getBookedAt(),
                 doc.get().getDescription()
         );
+    }
+
+//     Method to recover all transactions
+    @GetMapping
+    public List<TransactionResponseDTO> listAll() {
+
+//         TransactionDoc: // domain/ → what the data looks like in the database (Mongo “documents”)
+//        Use the interface findALl method to find all items in the MongoDB database
+
+        List<TransactionDoc> allTransactions = repo.findAll();
+        List<TransactionResponseDTO> results = new ArrayList<>();
+
+        for(TransactionDoc doc:  allTransactions){
+            TransactionResponseDTO dto = new TransactionResponseDTO(
+                    doc.getId(),
+                    doc.getAccountId(),
+                    doc.getAmount(),
+                    doc.getBookedAt(),
+                    doc.getDescription()
+            );
+            results.add(dto);
+        }
+        return results;
     }
 
 }
