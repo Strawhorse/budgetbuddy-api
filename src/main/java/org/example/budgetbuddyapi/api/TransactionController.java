@@ -45,6 +45,8 @@ public class TransactionController {
     }
 
 
+
+
 //    Method which recovers a transaction by the id that MongoDB gave it
 
     @GetMapping("/{id}")
@@ -59,6 +61,9 @@ public class TransactionController {
                 doc.get().getDescription()
         );
     }
+
+
+
 
 //     Method to recover all transactions
     @GetMapping
@@ -81,6 +86,16 @@ public class TransactionController {
             results.add(dto);
         }
         return results;
+    }
+
+
+
+
+//    Method to delete a transaction based on ID that MongoDB gave it
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTransaction(@PathVariable String id){
+        repo.deleteById(id);
     }
 
 }

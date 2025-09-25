@@ -10,8 +10,12 @@ import java.time.LocalDate;
 
 // dto/ → what the data looks like in the API (JSON in and out)
 // Defines what JSON comes into and out of the API.
+// analogous to the TransactionDoc file which goes in the MongoDB database
 
 
 public record TransactionCreateDTO (
-        @NotNull Long accountId, @Size(max = 255) String description, @NotNull LocalDate bookedAt, @NotNull BigDecimal amount
+        @NotNull Long accountId,
+        @Size(max = 255) String description,
+        @NotNull LocalDate bookedAt,
+        @NotNull BigDecimal amount
 ) {}
